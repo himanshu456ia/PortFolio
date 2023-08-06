@@ -1,52 +1,69 @@
 import { useState } from "react";
+import emailjs from "emailjs-com";
 import { Container, Row, Col } from "react-bootstrap";
 import contactImg from "../assets/img/contact-img.svg";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 
 export const Contact = () => {
-  const formInitialDetails = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: ''
-  }
-  const [formDetails, setFormDetails] = useState(formInitialDetails);
-  const [buttonText, setButtonText] = useState('Send');
-  const [status, setStatus] = useState({});
 
-  const onFormUpdate = (category, value) => {
-      setFormDetails({
-        ...formDetails,
-        [category]: value
-      })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setButtonText("Sending...");
-    let response = await fetch("http://localhost:5000/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(formDetails),
+    const [formData, setFormData] = useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      message: "",
     });
-    setButtonText("Send");
-    let result = await response.json();
-    setFormDetails(formInitialDetails);
-    if (result.code == 200) {
-      setStatus({ succes: true, message: 'Message sent successfully'});
-    } else {
-      setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
-    }
-  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    // Perform any validation and data processing here if needed
+
+    try {
+      const templateParams = {
+        from_name: formData.firstName + " " + formData.lastName,
+        email: formData.email,
+        message: formData.message,
+      };
+
+      // Replace 'YOUR_EMAILJS_SERVICE_ID', 'YOUR_EMAILJS_TEMPLATE_ID', and 'YOUR_EMAILJS_USER_ID' with your actual values from EmailJS
+      const response = await emailjs.send(
+        "service_pd6fze9",
+        "template_8rp9bsh",
+        templateParams,
+        "H4th8tqTIWXM81UU4"
+      );
+
+      console.log("Email sent successfully:", response);
+      window.alert("Email sent successfully:")
+      // Handle the success message here if needed.
+    } catch (error) {
+      console.error("Error sending email:", error);
+      // Handle the error message here if needed.
+   }
+   setFormData({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
+};
+
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    [name]: value,
+  }));
+};
 
   return (
     <section className="contact" id="connect">
       <Container>
+
+
         <Row className="align-items-center">
+
+
           <Col size={12} md={6}>
             <TrackVisibility>
               {({ isVisible }) =>
@@ -54,39 +71,56 @@ export const Contact = () => {
               }
             </TrackVisibility>
           </Col>
+
+
           <Col size={12} md={6}>
             <TrackVisibility>
-              {({ isVisible }) =>
-                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                <h2>Get In Touch</h2>
-                <form onSubmit={handleSubmit}>
-                  <Row>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.firstName} placeholder="First Name" onChange={(e) => onFormUpdate('firstName', e.target.value)} />
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.lasttName} placeholder="Last Name" onChange={(e) => onFormUpdate('lastName', e.target.value)}/>
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="email" value={formDetails.email} placeholder="Email Address" onChange={(e) => onFormUpdate('email', e.target.value)} />
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="tel" value={formDetails.phone} placeholder="Phone No." onChange={(e) => onFormUpdate('phone', e.target.value)}/>
-                    </Col>
-                    <Col size={12} className="px-1">
-                      <textarea rows="6" value={formDetails.message} placeholder="Message" onChange={(e) => onFormUpdate('message', e.target.value)}></textarea>
-                      <button type="submit"><span>{buttonText}</span></button>
-                    </Col>
-                    {
-                      status.message &&
-                      <Col>
-                        <p className={status.success === false ? "danger" : "success"}>{status.message}</p>
-                      </Col>
-                    }
-                  </Row>
-                </form>
-              </div>}
+            <form onSubmit={handleFormSubmit}>
+
+       <Row>    
+       <Col>
+      <input
+        type="text"
+        name="firstName"
+        placeholder="First Name"
+        value={formData.firstName}
+        onChange={handleInputChange}
+        required
+      /> 
+    </Col>
+    <Col>  
+      <input
+        type="text"
+        name="lastName"
+        placeholder="Last Name"
+        value={formData.lastName}
+        onChange={handleInputChange}
+        required
+      />
+    </Col>   
+      </Row>  
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        value={formData.email}
+        onChange={handleInputChange}
+        required
+      />
+      <textarea
+        rows="7"
+        name="message"
+        placeholder="Message"
+        value={formData.message}
+        onChange={handleInputChange}
+        required
+      ></textarea>
+      <button type="submit">Send Message</button>
+    </form>
             </TrackVisibility>
+
+
           </Col>
         </Row>
       </Container>

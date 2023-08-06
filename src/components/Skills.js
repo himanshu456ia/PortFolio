@@ -1,21 +1,21 @@
-import meter1 from "../assets/img/meter1.svg";
-import meter2 from "../assets/img/meter2.svg";
-import meter3 from "../assets/img/meter3.svg";
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import arrow1 from "../assets/img/arrow1.svg";
-import arrow2 from "../assets/img/arrow2.svg";
+// import meter1 from "../assets/img/meter1.svg";
+// import meter2 from "../assets/img/meter2.svg";
+// import meter3 from "../assets/img/meter3.svg";
+// import Carousel from 'react-multi-carousel';
+// import 'react-multi-carousel/lib/styles.css';
+// import arrow1 from "../assets/img/arrow1.svg";
+// import arrow2 from "../assets/img/arrow2.svg";
 import colorSharp from "../assets/img/color-sharp.png"
 
 export const Skills = () => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
+      breakpoint: { max: 1024, min: 464 },
       items: 5
     },
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
+      breakpoint: { max: 1024, min: 464 },
       items: 3
     },
     tablet: {
@@ -30,13 +30,15 @@ export const Skills = () => {
 
   return (
     <section className="skill" id="skills">
-        <div className="container">
+        <div className="container-skill">
             <div className="row">
                 <div className="col-12">
                     <div className="skill-bx wow zoomIn">
                         <h2>Skills</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br></br> Lorem Ipsum has been the industry's standard dummy text.</p>
-                        <Carousel responsive={responsive} infinite={true} className="owl-carousel owl-theme skill-slider">
+                        <p>I work with HTML, CSS, React, and Django, creating appealing front-end interfaces, dynamic web application</p>
+                        {/* <Carousel responsive={responsive} infinite={true} className="owl-carousel owl-theme skill-slider">
+
+
                             <div className="item">
                                 <img src={meter1} alt="Image" />
                                 <h5>Web Development</h5>
@@ -53,12 +55,31 @@ export const Skills = () => {
                                 <img src={meter1} alt="Image" />
                                 <h5>Web Development</h5>
                             </div>
-                        </Carousel>
+
+
+                        </Carousel> */}
+
+                        <li><h3>HTML</h3>
+                          <span className="bar"> <span className="html"></span> </span>
+                        </li>
+                        <li><h3>CSS</h3>
+                          <span className="bar"> <span className="css"></span> </span>
+                        </li>
+                        <li><h3>JAVASCRIPT</h3>
+                          <span className="bar"> <span className="javascript"></span> </span>
+                        </li>
+                        <li><h3>REACT</h3>
+                          <span className="bar"> <span className="react"></span> </span>
+                        </li>
+                        <li><h3>DJANGO</h3>
+                          <span className="bar"> <span className="django"></span> </span>
+                        </li>
+
                     </div>
                 </div>
             </div>
         </div>
-        <img className="background-image-left" src={colorSharp} alt="Image" />
+        <img className="background-image-right" src={colorSharp} alt="Image" />
     </section>
   )
 }
